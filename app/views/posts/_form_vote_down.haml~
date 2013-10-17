@@ -1,0 +1,2 @@
+= simple_form_for comment, :url => vote_down_path(comment) do |f|
+        = f.button :submit,'vote down', :class => 'post__button--edit'

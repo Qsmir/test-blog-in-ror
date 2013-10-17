@@ -19,15 +19,20 @@
       = comment.user_name
       = "|"
       = comment.created_at
-      - if current_user.id == comment.user_id
-        = "owner"
-      - else
-        = "not owner"
       .post__body= comment.body
+      - if current_user.votes.where(:comment_id => comment.id).to_a.length > 0
+        - if current_user.votes.where(:comment_id => comment.id).to_a[0]['value'] = 1
+          = render :partial => "form_vote_down", :locals => { :comment => comment }
+        - else 
+          = render :partial => "form_vote_up", :locals => { :comment => comment }
+      - else
+        = render :partial => "form_vote_up", :locals => { :comment => comment }
+        = render :partial => "form_vote_down", :locals => { :comment => comment }
+
 
 %div
   = simple_form_for [post,post.comments.build] do |f|
     = f.input :body
     = f.input :post_id, as: :hidden, input_html: {value: post.id}
-    = f.input :user_id, as: :hidden, input_html: {value: post.user_id}
+    = f.input :user_id, as: :hidden, input_html: {value: current_user.id}
     = f.button :submit
