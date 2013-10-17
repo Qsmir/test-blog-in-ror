@@ -2,7 +2,7 @@
   %h2
     = post.title
     %small
-      = post.created_at.strftime("%d/%m/%Y: %H:%M")
+      = post.created_at
   = link_to "edit", edit_post_path(post), class: 'post__button--edit'
 
   .post__body
