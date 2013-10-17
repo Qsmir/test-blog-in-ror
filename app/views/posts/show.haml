@@ -4,6 +4,7 @@
     %small
       = post.created_at.strftime("%d/%m/%Y: %H:%M")
   = link_to "edit", edit_post_path(post), class: 'post__button--edit'
+  = link_to 'Delete', post, :method => :delete, :confirm => "Are you sure?",class: 'post__button--edit'
 
   .post__body
     = post.body
