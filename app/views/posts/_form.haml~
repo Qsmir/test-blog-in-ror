@@ -2,5 +2,4 @@
   = f.input :title
   = f.input :body, as: :text, input_html: { cols: 50, rows: 3 }
   = f.input :tags, as: :text, hint: "comma separated values", input_html: { cols: 50, rows: 3 }
-  = f.input :user_id, as: :hidden, input_html: {value: current_user.id}
   = f.button :submit
