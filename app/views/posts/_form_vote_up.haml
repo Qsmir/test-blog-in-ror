@@ -1,2 +1,3 @@
 = simple_form_for comment, :url => vote_up_path(comment) do |f|
+  = f.input :vote, as: :hidden, input_html: {value: 1}
   = f.button :submit,'vote up', :class => 'post__button--edit'

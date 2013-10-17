@@ -1,3 +1,2 @@
-%h2 
-  = "HELLO!"
-  = @comment.to_a
+%h2
+  = @val
