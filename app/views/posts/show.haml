@@ -11,3 +11,23 @@
   .post__tags-list.tagsinput
     - post.tags_array.each do |tag|
       = content_tag :span, tag, class: 'tag'
+
+
+%ol(style="clear:both;padding-top:15px;")
+  - post.comments.each do |comment|
+    %li.post--short-size
+      = comment.user_name
+      = "|"
+      = comment.created_at
+      - if current_user.id == comment.user_id
+        = "owner"
+      - else
+        = "not owner"
+      .post__body= comment.body
+
+%div
+  = simple_form_for [post,post.comments.build] do |f|
+    = f.input :body
+    = f.input :post_id, as: :hidden, input_html: {value: post.id}
+    = f.input :user_id, as: :hidden, input_html: {value: post.user_id}
+    = f.button :submit
