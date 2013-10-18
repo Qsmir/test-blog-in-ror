@@ -7,7 +7,7 @@ Easyblog::Application.routes.draw do
   resources :users
   put "comments/vote_up/:id" => 'comments#vote_up', as: 'vote_up'
   put "comments/vote_down/:id" => 'comments#vote_down', as: 'vote_down'
-  put "comments/reset_abusive/:id" => 'comments#reset_abusive', as: 'reset_abusive'
+  put "comments/mark_as_not_abusive/:id" => 'comments#mark_as_not_abusive', as: 'mark_as_not_abusive'
   resources :posts do
     resources :comments
     member do

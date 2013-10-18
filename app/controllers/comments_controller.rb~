@@ -34,8 +34,7 @@ class CommentsController < ApplicationController
       @comment.abusive = false
       @comment.save
     end
-      @pre = @comment.to_a
-    #redirect_to post_path(@comment.post_id)
+    redirect_to post_path(@comment.post_id)
   end
 
   protected

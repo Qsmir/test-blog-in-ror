@@ -1,0 +1,4 @@
+%pre 
+  = tag_cloud.each do |tag|
+  %span.label
+    = "#{tag[0]} (#{tag[1].to_i})"

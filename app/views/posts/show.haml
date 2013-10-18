@@ -33,8 +33,8 @@
           = render :partial => "form_vote_up", :locals => { :comment => comment }
           = render :partial => "form_vote_down", :locals => { :comment => comment }
         - if current_user.id == comment.user_id and comment.abusive
-          = simple_form_for comment, :url => reset_abusive_path(comment) do |f|
-            = f.button :submit,'reset abusive', :confirm => "Are you sure?",:class => 'post__button--edit'
+          = simple_form_for comment, :url => mark_as_not_abusive_path(comment) do |f|
+            = f.button :submit,'mark as not abusive',:class => 'post__button--edit'
       - else
         = "This comment was recognized as offensive"    
 %div

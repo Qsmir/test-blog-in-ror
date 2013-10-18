@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
     self.crud_vote(@comment, @user, @value)
   end
 
-  def reset_abusive
+  def mark_as_not_abusive
     @comment = Comment.find(params[:id])
     @user = User.find(current_user.id)
     if @user.id == @comment.user_id
