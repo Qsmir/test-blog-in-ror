@@ -10,6 +10,7 @@ Easyblog::Application.routes.draw do
   put "comments/vote_down/:id" => 'comments#vote_down', as: 'vote_down'
   put "comments/mark_as_not_abusive/:id" => 'comments#mark_as_not_abusive', as: 'mark_as_not_abusive'
   get "posts/:post/exposes/:id" => 'comments#exposed'
+  get "posts/hotness/:id" => 'posts#hotness'
   resources :posts do
     resources :comments
     member do

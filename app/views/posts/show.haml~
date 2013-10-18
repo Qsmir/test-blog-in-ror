@@ -1,7 +1,6 @@
 .post--full-size
   %h2
     = post.title
-    = @pre
     %small
       = post.friendly_date
   = link_to "edit", edit_post_path(post), class: 'post__button--edit'
@@ -21,7 +20,7 @@
       = "|"
       = comment.created_at.try(:strftime, "%d/%m/%Y: %H:%M")
       = "[votes sum : "
-      = comment.id
+      = comment.votes.all.to_a.inject(0){|sum,item| sum + item.value}
       = " ]"
       .post__body= comment.body
       - if current_user.votes.where(:comment_id => comment.id).to_a.length == 0
@@ -36,3 +35,10 @@
     = f.input :post_id, as: :hidden, input_html: {value: post.id}
     = f.input :user_id, as: :hidden, input_html: {value: current_user.id}
     = f.button :submit
+
+
+
+%pre 
+  = "["
+  = post.hotness
+  = "]"
