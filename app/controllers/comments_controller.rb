@@ -9,9 +9,10 @@ class CommentsController < ApplicationController
   def vote_up
     @comment = Comment.find(params[:id])
     @user = User.find(current_user.id)
-    @value = params[:comment][:vote]
-
-    self.crud_vote(@comment, @user, @value)
+    if current_user.votes.where(:comment_id => @comment.id).to_a.length == 0
+      self.create_vote(@comment, @user, 1)
+    end
+    redirect_to post_path(@comment.post_id)
   end
 
   def vote_down
@@ -25,6 +26,16 @@ class CommentsController < ApplicationController
     end
 
     self.crud_vote(@comment, @user, @value)
+  end
+
+  def mark_as_not_abusive
+    @comment = Comment.find(params[:id])
+    @user = User.find(current_user.id)
+    if @user.id == @comment.user_id
+      @comment.abusive = false
+      @comment.save
+    end
+    redirect_to post_path(@comment.post_id)
   end
 
   def mark_as_not_abusive
