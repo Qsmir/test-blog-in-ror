@@ -1,0 +1,16 @@
+class VotesController < ApplicationController
+  def create
+     @comment = Comment.find(params[:comment_id])
+     if Vote.where(:comment_id => @comment.id, :value => -1).to_a.length >= 3
+       @comment.abusive = true
+       @comment.save
+     end
+     redirect_to user_path
+  end
+
+  def lotem
+    @comment = Comment.find(params[:comment])
+    @comment.body = "asd"
+    @comment.save
+  end 
+end

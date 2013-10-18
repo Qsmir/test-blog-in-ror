@@ -24,12 +24,7 @@
         = comment.votes.all.to_a.inject(0){|sum,item| sum + item.value}
         = " ]"
         .post__body= comment.body
-        - if current_user.votes.where(:comment_id => comment.id).to_a.length > 0
-          - if current_user.votes.where(:comment_id => comment.id).to_a[0]['value'] == 1
-            = render :partial => "form_vote_down", :locals => { :comment => comment }
-          - else 
-            = render :partial => "form_vote_up", :locals => { :comment => comment }
-        - else
+        - if current_user.votes.where(:comment_id => comment.id).to_a.length == 0
           = render :partial => "form_vote_up", :locals => { :comment => comment }
           = render :partial => "form_vote_down", :locals => { :comment => comment }
         - if current_user.id == comment.user_id and comment.abusive

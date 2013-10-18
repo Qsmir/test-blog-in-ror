@@ -20,22 +20,16 @@ class CommentsController < ApplicationController
     @user = User.find(current_user.id)
     @value = params[:comment][:vote].to_i
 
-    if self.count_vote(@comment) <= -2
-      @comment.abusive = true
-      @comment.save
-    end
-
-    self.crud_vote(@comment, @user, @value)
-  end
-
-  def mark_as_not_abusive
-    @comment = Comment.find(params[:id])
-    @user = User.find(current_user.id)
-    if @user.id == @comment.user_id
-      @comment.abusive = false
-      @comment.save
+    if current_user.votes.where(:comment_id => @comment.id).to_a.length == 0
+      self.create_vote(@comment, @user, -1)
     end
     redirect_to post_path(@comment.post_id)
+  end
+
+  def mark_as_abusive(comment)
+    @comment = comment
+    @comment.abusive = true
+    @comment.save
   end
 
   def mark_as_not_abusive
@@ -52,10 +46,7 @@ class CommentsController < ApplicationController
 
     def create_vote(comment,user,value)
     # tworzenie nowego glosu
-      v = Vote.new(:value => value)
-      v.user = user
-      v.comment = comment
-      v.save
+      Vote.create(:value => value,:user => user, :comment => comment)
     end
     
     def crud_vote(comment,user,value)
@@ -73,14 +64,4 @@ class CommentsController < ApplicationController
         redirect_to post_path(comment.post_id)
       end
     end
-    
-    def count_vote(comment)
-      # obliczanie sumy glosow dla danego komentarza
-      count = 0
-      Vote.where(:comment_id => comment.id).each do |val|
-	  count += val.value	
-      end
-      return count
-    end
-
 end

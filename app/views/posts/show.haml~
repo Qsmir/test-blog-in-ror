@@ -19,22 +19,21 @@
       - if current_user.id == comment.user_id or !comment.abusive
         = comment.user_name
         = "|"
+        - comment.votes.all.to_a.each do |v|
+          = "["
+          = v.counter
+          = "]"
         = comment.created_at.try(:strftime, "%d/%m/%Y: %H:%M")
         = "[votes sum : "
         = comment.votes.all.to_a.inject(0){|sum,item| sum + item.value}
         = " ]"
         .post__body= comment.body
-        - if current_user.votes.where(:comment_id => comment.id).to_a.length > 0
-          - if current_user.votes.where(:comment_id => comment.id).to_a[0]['value'] == 1
-            = render :partial => "form_vote_down", :locals => { :comment => comment }
-          - else 
-            = render :partial => "form_vote_up", :locals => { :comment => comment }
-        - else
+        - if current_user.votes.where(:comment_id => comment.id).to_a.length == 0
           = render :partial => "form_vote_up", :locals => { :comment => comment }
           = render :partial => "form_vote_down", :locals => { :comment => comment }
         - if current_user.id == comment.user_id and comment.abusive
-          = simple_form_for comment, :url => reset_abusive_path(comment) do |f|
-            = f.button :submit,'reset abusive', :confirm => "Are you sure?",:class => 'post__button--edit'
+          = simple_form_for comment, :url => mark_as_not_abusive_path(comment) do |f|
+            = f.button :submit,'mark as not abusive',:class => 'post__button--edit'
       - else
         = "This comment was recognized as offensive"    
 %div
