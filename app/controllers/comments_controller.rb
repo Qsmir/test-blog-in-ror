@@ -6,6 +6,12 @@ class CommentsController < ApplicationController
     redirect_to @post
   end
 
+  def index
+  end
+  
+  def exposes
+  end
+
   def vote_up
     @comment = Comment.find(params[:id])
     @user = User.find(current_user.id)
@@ -14,7 +20,7 @@ class CommentsController < ApplicationController
     end
     redirect_to post_path(@comment.post_id)
   end
-
+  
   def vote_down
     @comment = Comment.find(params[:id])
     @user = User.find(current_user.id)

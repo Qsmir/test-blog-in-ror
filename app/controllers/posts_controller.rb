@@ -6,8 +6,7 @@ class PostsController < ApplicationController
 
   def index
   end
-
-
+  
   def new
   end
 
@@ -28,6 +27,11 @@ class PostsController < ApplicationController
   end
 
   def show
+    if current_user.id == post.user_id
+      @comments = Comment.where(:post_id => post.id)
+    else
+      @comments = Comment.where(:post_id => post.id, :abusive => false)
+    end
   end
 
   def mark_archived

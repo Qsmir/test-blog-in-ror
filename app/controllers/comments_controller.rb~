@@ -6,6 +6,12 @@ class CommentsController < ApplicationController
     redirect_to @post
   end
 
+  def index
+  end
+  
+  def expose
+  end
+
   def vote_up
     @comment = Comment.find(params[:id])
     @user = User.find(current_user.id)
@@ -14,7 +20,7 @@ class CommentsController < ApplicationController
     end
     redirect_to post_path(@comment.post_id)
   end
-
+  
   def vote_down
     @comment = Comment.find(params[:id])
     @user = User.find(current_user.id)
@@ -46,7 +52,6 @@ class CommentsController < ApplicationController
 
     def create_vote(comment,user,value)
     # tworzenie nowego glosu
-      Vote.lotem(:comment => comment)
       Vote.create(:value => value,:user => user, :comment => comment)
     end
     
