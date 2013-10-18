@@ -20,6 +20,9 @@
         = comment.user_name
         = "|"
         = comment.created_at.try(:strftime, "%d/%m/%Y: %H:%M")
+        = "[votes sum : "
+        = comment.votes.all.to_a.inject(0){|sum,item| sum + item.value}
+        = " ]"
         .post__body= comment.body
         - if current_user.votes.where(:comment_id => comment.id).to_a.length > 0
           - if current_user.votes.where(:comment_id => comment.id).to_a[0]['value'] == 1
