@@ -10,20 +10,31 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     @user = User.find(current_user.id)
     @value = params[:comment][:vote]
-    
+
     self.crud_vote(@comment, @user, @value)
- 
   end
 
   def vote_down
     @comment = Comment.find(params[:id])
     @user = User.find(current_user.id)
     @value = params[:comment][:vote].to_i
+
     if self.count_vote(@comment) <= -2
       @comment.abusive = true
       @comment.save
     end
+
     self.crud_vote(@comment, @user, @value)
+  end
+
+  def reset_abusive
+    @comment = Comment.find(params[:id])
+    @user = User.find(current_user.id)
+    if @user.id == @comment.user_id
+      @comment.abusive = false
+      @comment.save
+    end
+    redirect_to post_path(@comment.post_id)
   end
 
   protected
